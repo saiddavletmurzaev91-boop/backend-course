@@ -1,0 +1,42 @@
+$kind: http-request
+url: "{{base_url}}/cities/sort?order=desc"
+method: GET
+queryParams:
+  order: desc
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Статус 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Ответ в формате JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Есть поле count\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData).to.have.property('count');\r
+
+      });\r
+
+      \r
+
+      pm.test(\"cities - это массив\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData.cities).to.be.an('array');\r
+
+      });"
+    language: text/javascript
+order: 4499451516743104

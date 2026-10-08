@@ -1,0 +1,43 @@
+$kind: http-request
+url: "{{base_url}}/cities?page=1&limit=2"
+method: GET
+queryParams:
+  page: "1"
+  limit: "2"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Статус 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Ответ в формате JSON\", function () {\r
+
+      \    pm.response.to.be.json;\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Есть поле total\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData).to.have.property('total');\r
+
+      });\r
+
+      \r
+
+      pm.test(\"cities - это массив\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData.cities).to.be.an('array');\r
+
+      });"
+    language: text/javascript
+order: 4321959987085841

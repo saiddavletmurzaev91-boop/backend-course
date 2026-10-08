@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{base_url}}/items/1"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Статус 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Ответ содержит данные товара\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData).to.have.property('id');\r
+
+      \    pm.expect(jsonData).to.have.property('name');\r
+
+      \    pm.expect(jsonData).to.have.property('price');\r
+
+      });"
+    language: text/javascript
+order: 1710383718464746

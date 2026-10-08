@@ -1,0 +1,40 @@
+$kind: http-request
+url: "{{base_url}}/cities/1"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Статус 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Город удалён\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(jsonData).to.have.property('message');\r
+
+      \    pm.expect(jsonData.message).to.equal('Город удалён');\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Ответ содержит удалённый город\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(jsonData).to.have.property('deleted');\r
+
+      \    pm.expect(jsonData.deleted).to.have.property('id');\r
+
+      });"
+    language: text/javascript
+order: 2420490909531960

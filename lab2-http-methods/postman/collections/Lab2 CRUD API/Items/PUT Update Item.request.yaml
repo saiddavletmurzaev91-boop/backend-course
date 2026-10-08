@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{base_url}}/items/1"
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"Обновлённый товар\",\r
+
+    \  \"price\": 150,\r
+
+    \  \"quantity\": 20\r
+
+    }"
+order: 4203862984333958

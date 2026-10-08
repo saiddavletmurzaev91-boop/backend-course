@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{base_url}}/items"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"Новый товар\",\r
+
+    \  \"price\": 500,\r
+
+    \  \"quantity\": 7\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Статус 201 Created\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Ответ содержит ID\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData).to.have.property('id');\r
+
+      \    pm.expect(jsonData.id).to.be.a('number');\r
+
+      });"
+    language: text/javascript
+order: 2010132332439172

@@ -1,0 +1,475 @@
+{
+  "info": {
+    "_postman_id": "62abe9fa-749c-466a-ba4c-79b1059fa140",
+    "name": "Lab2 CRUD API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58259855",
+    "_collection_link": "https://go.postman.co/collection/58259855-62abe9fa-749c-466a-ba4c-79b1059fa140?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Items",
+      "item": [
+        {
+          "name": "Errors",
+          "item": [
+            {
+              "name": "POST Invalid Data (400)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Статус 400 Bad Request\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Ответ содержит error\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('error');\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/items",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "items"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "POST Invalid City",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test(\"Статус 400 Bad Request\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Ответ содержит error\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('error');\r\n});"
+                    ]
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"name\": \"Тестовый город\",\r\n  \"population\": -100\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/cities",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "cities"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "GET All Items",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Есть поле count\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('count');\r\n});\r\n\r\npm.test(\"items - это массив\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.items).to.be.an('array');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Item by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Ответ содержит данные товара\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('id');\r\n    pm.expect(jsonData).to.have.property('name');\r\n    pm.expect(jsonData).to.have.property('price');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/items/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "items",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create Item",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 201 Created\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Ответ содержит ID\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('id');\r\n    pm.expect(jsonData.id).to.be.a('number');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Новый товар\",\r\n  \"price\": 500,\r\n  \"quantity\": 7\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/items",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "items"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update Item",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Обновлённый товар\",\r\n  \"price\": 150,\r\n  \"quantity\": 20\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/items/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "items",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Delete Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/items/3",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "items",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET All Cities",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Есть поле total\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('total');\r\n});\r\n\r\npm.test(\"cities - это массив\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.cities).to.be.an('array');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/cities?page=1&limit=2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cities"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET City by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Ответ содержит данные города\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData).to.have.property('id');\r\n    pm.expect(jsonData).to.have.property('name');\r\n    pm.expect(jsonData).to.have.property('population');\r\n});\r\n\r\npm.test(\"ID имеет числовой тип\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.id).to.be.a('number');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/cities/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cities",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Create City",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 201 Created\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Ответ содержит ID\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('id');\r\n    pm.expect(jsonData.id).to.be.a('number');\r\n});\r\n\r\npm.test(\"Ответ содержит данные города\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('name');\r\n    pm.expect(jsonData).to.have.property('population');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Владикавказ\",\r\n  \"population\": 320000,\r\n  \"country\": \"Россия\",\r\n  \"area\": 291\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/cities",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PUT Update City",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Город обновлён\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData).to.have.property('id');\r\n    pm.expect(jsonData).to.have.property('name');\r\n    pm.expect(jsonData).to.have.property('population');\r\n});\r\n\r\npm.test(\"ID имеет числовой тип\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.id).to.be.a('number');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Владикавказ обновлённый\",\r\n  \"population\": 325000,\r\n  \"country\": \"Россия\",\r\n  \"area\": 295\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/cities/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cities",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Search Cities",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Есть поле count\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('count');\r\n});\r\n\r\npm.test(\"cities - это массив\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.cities).to.be.an('array');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/cities/search?name=Москва",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cities",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Москва"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET Sort Cities",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Ответ в формате JSON\", function () {\r\n    pm.response.to.be.json;\r\n});\r\n\r\npm.test(\"Есть поле count\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property('count');\r\n});\r\n\r\npm.test(\"cities - это массив\", function () {\r\n    const jsonData = pm.response.json();\r\n    pm.expect(jsonData.cities).to.be.an('array');\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/cities/sort?order=desc",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "cities",
+                "sort"
+              ],
+              "query": [
+                {
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "DELETE Delete City",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Статус 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Город удалён\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData).to.have.property('message');\r\n    pm.expect(jsonData.message).to.equal('Город удалён');\r\n});\r\n\r\npm.test(\"Ответ содержит удалённый город\", function () {\r\n    const jsonData = pm.response.json();\r\n\r\n    pm.expect(jsonData).to.have.property('deleted');\r\n    pm.expect(jsonData.deleted).to.have.property('id');\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/cities/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "cities",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

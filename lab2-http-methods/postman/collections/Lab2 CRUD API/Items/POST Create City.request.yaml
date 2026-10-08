@@ -1,0 +1,49 @@
+$kind: http-request
+url: "{{base_url}}/cities"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"Владикавказ\",\r
+
+    \  \"population\": 320000,\r
+
+    \  \"country\": \"Россия\",\r
+
+    \  \"area\": 291\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Статус 201 Created\", function () {\r
+
+      \    pm.response.to.have.status(201);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Ответ содержит ID\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData).to.have.property('id');\r
+
+      \    pm.expect(jsonData.id).to.be.a('number');\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Ответ содержит данные города\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData).to.have.property('name');\r
+
+      \    pm.expect(jsonData).to.have.property('population');\r
+
+      });"
+    language: text/javascript
+order: 4474424533032740

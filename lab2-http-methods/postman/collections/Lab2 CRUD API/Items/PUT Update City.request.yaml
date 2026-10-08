@@ -1,0 +1,51 @@
+$kind: http-request
+url: "{{base_url}}/cities/1"
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"name\": \"Владикавказ обновлённый\",\r
+
+    \  \"population\": 325000,\r
+
+    \  \"country\": \"Россия\",\r
+
+    \  \"area\": 295\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Статус 200 OK\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Город обновлён\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \r
+
+      \    pm.expect(jsonData).to.have.property('id');\r
+
+      \    pm.expect(jsonData).to.have.property('name');\r
+
+      \    pm.expect(jsonData).to.have.property('population');\r
+
+      });\r
+
+      \r
+
+      pm.test(\"ID имеет числовой тип\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData.id).to.be.a('number');\r
+
+      });"
+    language: text/javascript
+order: 4476204639726205
